@@ -12,6 +12,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
+    private TextView mSkipView;
+    boolean wasLoggedIn = false;
 
     @VisibleForTesting
     public ProgressDialog mProgressDialog;
@@ -87,16 +90,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mStatusTextView = findViewById(R.id.status);
         mEmailField = findViewById(R.id.email_form);
         mPasswordField = findViewById(R.id.password_form);
+        mSkipView = (TextView) findViewById(R.id.skip_skip);
         //Buttons
         findViewById(R.id.loginbutton).setOnClickListener(this);
         findViewById(R.id.create_account).setOnClickListener(this);
         findViewById(R.id.logoutbutton).setOnClickListener(this);
+        mSkipView.setOnClickListener(this);
         // findViewById(R.id.verify_email_button).setOnClickListener(this); //<- this might be good to have later
 
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             Intent homeIntent = new Intent(this, HomeActivity.class);
-            homeIntent.putExtra(EXTRA_MESSAGE, mAuth.getCurrentUser().getUid());
+//            homeIntent.putExtra(EXTRA_MESSAGE, mAuth.getCurrentUser().getUid());
             startActivity(homeIntent);
         }
     }
@@ -118,16 +123,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.loginbutton).setOnClickListener(this);
         findViewById(R.id.create_account).setOnClickListener(this);
         findViewById(R.id.logoutbutton).setOnClickListener(this);
-        if (currentUser!=null) startActivity(new Intent(this, HomeActivity.class));
+//        if (currentUser!=null) startActivity(new Intent(this, HomeActivity.class));
         updateUI(currentUser);
     }
 
     public void signIn(String email, String password) {
         Log.d(TAG, "signIn:"+email);
-        Toast.makeText(MainActivity.this, "Button clicked!", Toast.LENGTH_SHORT).show();
-        if (!isValidEmail(email)) Toast.makeText(MainActivity.this, "Invalid email!", Toast.LENGTH_SHORT).show();
+        if (!isValidEmail(email)) Toast.makeText(MainActivity.this, "Invalid email", Toast.LENGTH_SHORT).show();
         else {
-            Toast.makeText(MainActivity.this, "Valid inputs...", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(MainActivity.this, "Valid inputs...", Toast.LENGTH_SHORT).show();
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -154,9 +158,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             hideProgressDialog();
                         }
                     });
-            if (mAuth.getCurrentUser() != null) {
-                startActivity(new Intent(this, HomeActivity.class));
-            }
+//            if (mAuth.getCurrentUser() != null) {
+//                startActivity(new Intent(this, HomeActivity.class));
+//            }
         }
     }
 
@@ -191,9 +195,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.create_account) {
             startActivity(new Intent(this, AccountActivity.class));
+
 //            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.logoutbutton) {
             signOut();
+        } else if (i == R.id.skip_skip) {
+            startActivity(new Intent(this, HomeActivity.class));
         }
     }
 }

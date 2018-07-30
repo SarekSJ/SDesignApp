@@ -29,8 +29,33 @@
         <activity android:name=".AccountActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".LessonActivity" />
-        <activity android:name=".ResourceActivity"></activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".ResourceActivity" />
+        <activity android:name=".CalendarActivity" />
+        <activity
+            android:name=".CalendarSettingsActivity"
+            android:label="@string/title_activity_period_settings"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_fullscreen"
+            android:screenOrientation="landscape"
+            android:theme="@style/FullscreenTheme" />
+
+        <activity android:name=".ClinicsActivity"
+            android:label="ResourcesPage"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".ClinicView"
+            android:label="SoloClinic"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Forum"
+            android:label="@string/title_activity_forum"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".about"
+            android:label="@string/about_module"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
